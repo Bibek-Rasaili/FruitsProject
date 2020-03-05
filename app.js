@@ -17,7 +17,7 @@ client.connect(function(err){
 
   const db = client.db(dbName);
 
-  insertDocuments(db, function(){
+  findDocuments(db, function(){
     client.close();
   })
 });
@@ -50,5 +50,20 @@ const insertDocuments = function(db, callback) {
     assert.equal(3, result.ops.length);
     console.log("Inserted 3 documents into the collection");
     callback(result);
+  })
+}
+
+
+
+// Finding/ Reading the documents from a collection
+const findDocuments = function (db, callback) {
+  // Get the collection (called fruits)
+  const collection = db.collection('fruits');
+  // Find some documents - stores it in the  fruits variable/parameter.
+  collection.find({}).toArray(function(err, fruits){
+    assert.equal(err, null);
+    console.log("Found the following records");
+    console.log(fruits);
+    callback(fruits);
   })
 }
