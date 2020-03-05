@@ -9,7 +9,7 @@ const dbName = 'fruitsDB';
 
 
 // Create a new MongoClient
-const client = new MongoClient(url); // , { useNewUrlParser: true }
+const client = new MongoClient(url, { useUnifiedTopology: true }); // , { useNewUrlParser: true }
 
 
 // Use connect method to connect to the Server
