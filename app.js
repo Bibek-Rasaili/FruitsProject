@@ -7,10 +7,8 @@ const url = "mongodb://localhost:27017";
 // Database Name
 const dbName = 'fruitsDB';
 
-
 // Create a new MongoClient
-const client = new MongoClient(url, { useUnifiedTopology: true }); // , { useNewUrlParser: true }
-
+const client = new MongoClient(url, { useUnifiedTopology: true });
 
 // Use connect method to connect to the Server
 client.connect(function(err){
@@ -18,8 +16,39 @@ client.connect(function(err){
   console.log("Connected successfully to server");
 
   const db = client.db(dbName);
-  // const collection = client.db("test").collection("devices");
 
-  // perform actions on the collection object
-  client.close();
+  insertDocuments(db, function(){
+    client.close();
+  })
 });
+
+
+// Adding new documents/ data to the Database
+const insertDocuments = function(db, callback) {
+  // Get the collection (or creates the collection)
+  const collection = db.collection('fruits');
+  // Insert some documents
+  collection.insertMany([
+    {
+      name: "Apple",
+      score: 7,
+      review: "Great fruit"
+    },
+    {
+      name: "Orange",
+      score: 8,
+      review: "Kinda sour"
+    },
+    {
+      name: "Banana",
+      score: 9,
+      review: "Great Stuff!"
+    }
+  ], function(err, result){
+    assert.equal(err, null);
+    assert.equal(3, result.result.n);
+    assert.equal(3, result.ops.length);
+    console.log("Inserted 3 documents into the collection");
+    callback(result);
+  })
+}
