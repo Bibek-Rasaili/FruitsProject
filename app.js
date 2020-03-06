@@ -17,6 +17,8 @@ client.connect(function(err){
 
   const db = client.db(dbName);
 
+// currently reading the documents,
+// - CHANGE THIS to insertDocuments() if you wish to write documents
   findDocuments(db, function(){
     client.close();
   })
